@@ -101,6 +101,7 @@ class TestCase:
 
         # Переходим на нужный таб для скачивания файла
         self.page_download.init_page_elements()
+        # тут странное поведение страницы, она обновляется 2 раза, поэтому пока так
         time.sleep(2)
         self.page_download.plugin_tab.click()
         tab_by_os = self.page_download.get_tab_by_platform()
