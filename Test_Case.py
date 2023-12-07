@@ -79,6 +79,7 @@ class TestCase:
         # Выбор региона и проверка
         self.page_contacts.current_region.click()
         regionPanel = RegionPanel(self.dr_helper)
+        regionPanel.init_page_elements()
         regionPanel.select_region(select_region)
 
         # Подождем смены региона
@@ -102,7 +103,7 @@ class TestCase:
         # Переходим на нужный таб для скачивания файла
         self.page_download.init_page_elements()
         # тут странное поведение страницы, она обновляется 2 раза, поэтому пока так
-        time.sleep(2)
+        time.sleep(1)
         self.page_download.plugin_tab.click()
         tab_by_os = self.page_download.get_tab_by_platform()
         tab_by_os.click()
@@ -111,7 +112,8 @@ class TestCase:
         link_el = self.page_download.find_first_link_for_download()
         link = link_el.get_attribute('href')
         size_from_text_arr = re.findall(r'\d+', link_el.text)
-        size_from_text = '.'.join(size_from_text_arr)
+        if size_from_text_arr:
+            size_from_text = '.'.join(size_from_text_arr)
 
         # Скачиваем файл, извлекаем нужные данные
         content, download_file_size = self.page_download.download_file_by_link(link)

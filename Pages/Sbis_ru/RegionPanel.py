@@ -1,12 +1,10 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from Constants import ELEMENT_WAIT_TIMEOUT
+from Pages.Base import Base
 
 
-class RegionPanel:
-    def __init__(self, dr_helper):
-        self.dr_helper = dr_helper
-        self.init_page_elements()
+class RegionPanel(Base):
 
     def init_page_elements(self):
         # Ожидаем появления самой панели

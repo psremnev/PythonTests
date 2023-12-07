@@ -1,10 +1,9 @@
 from selenium.webdriver.common.by import By
+from Pages.Base import Base
 
-class Home:
+
+class Home(Base):
     url = 'https://sbis.ru/'
-
-    def __init__(self, dr_helper):
-        self.dr_helper = dr_helper
 
     def open(self):
         self.dr_helper.open(self.url)

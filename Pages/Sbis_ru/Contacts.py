@@ -1,8 +1,8 @@
-class Contacts:
-    url = 'https://sbis.ru/contacts'
+from Pages.Base import Base
 
-    def __init__(self, dr_helper):
-        self.dr_helper = dr_helper
+
+class Contacts(Base):
+    url = 'https://sbis.ru/contacts'
 
     def open(self):
         self.dr_helper.open(self.url)

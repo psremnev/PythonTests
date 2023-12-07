@@ -1,16 +1,12 @@
 import requests
 from selenium.webdriver.common.by import By
 from sys import platform
-from selenium.webdriver.support.wait import WebDriverWait
+from Pages.Base import Base
+from Constants import Platform, STATUS_OK
 
-from Constants import Platform, ELEMENT_WAIT_TIMEOUT, STATUS_OK
 
-
-class Download:
+class Download(Base):
     url = 'https://sbis.ru/download'
-
-    def __init__(self, dr_helper):
-        self.dr_helper = dr_helper
 
     def open(self):
         self.dr_helper.open(self.url)

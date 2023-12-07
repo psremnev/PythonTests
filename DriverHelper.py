@@ -1,3 +1,5 @@
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -55,7 +57,7 @@ class DriverHelper:
     def get_windows(self):
         return self.__driver.window_handles
 
-    def scroll_to_el(self, el: WebElement):
+    def scroll_to_el(self, el):
         # тут нужно сделать относительно конкретного элемента так как сролл контейнеров может быть много,
         # но пока не стал делать в рамках тестового
         self.__driver.execute_script(
