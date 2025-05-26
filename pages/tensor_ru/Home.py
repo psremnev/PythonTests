@@ -1,11 +1,11 @@
 from selenium.webdriver.common.by import By
-from Pages.Base import Base
+from pages.Base import Base
 
 class Home(Base):
     url = 'https://tensor.ru/'
 
     def open(self):
-        self.dr_helper.open(self.url)
+        self.dr.open(self.url)
         self.init_page_elements()
 
     def init_page_elements(self):
@@ -15,7 +15,8 @@ class Home(Base):
     def power_in_people_card_title_is_visible(self):
         return self.power_in_people_card_title.is_displayed() and self.power_in_people_card_title.text == 'Сила в людях'
     def find_power_in_people_card(self):
-        find_els = self.dr_helper.get_elements_by_css('.tensor_ru-Index__card')
+        self.dr.scroll_to_el_by_css('.tensor_ru-Index__card')
+        find_els = self.dr.get_elements_by('.tensor_ru-Index__card')
         if not find_els:
             return None
         for el in find_els:

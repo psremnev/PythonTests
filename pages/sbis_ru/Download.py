@@ -1,22 +1,22 @@
 import requests
 from selenium.webdriver.common.by import By
 from sys import platform
-from Pages.Base import Base
-from Constants import Platform, STATUS_OK
+from pages.Base import Base
+from constants import Platform, STATUS_OK
 
 
 class Download(Base):
     url = 'https://sbis.ru/download'
 
     def open(self):
-        self.dr_helper.open(self.url)
+        self.dr.open(self.url)
         self.init_page_elements()
 
     def init_page_elements(self):
         self.plugin_tab = self.find_tab('СБИС Плагин')
 
     def find_tab(self, tab_name):
-        tabs = self.dr_helper.get_elements_by_css('.controls-TabButton')
+        tabs = self.dr.get_elements_by('.controls-TabButton')
         for tab in tabs:
             tab_caption_el = tab.find_element(By.CSS_SELECTOR, '.controls-TabButton__caption')
             if tab_caption_el.text == tab_name:
@@ -33,7 +33,7 @@ class Download(Base):
         return self.find_tab(tab_name.value)
 
     def find_first_link_for_download(self):
-        return self.dr_helper.get_elements_by_css('Скача', By.PARTIAL_LINK_TEXT)[0]
+        return self.dr.get_elements_by('Скача', By.PARTIAL_LINK_TEXT)[0]
 
     @staticmethod
     def download_file_by_link(url):

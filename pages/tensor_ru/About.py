@@ -1,12 +1,12 @@
 from selenium.webdriver.common.by import By
-from Pages.Base import Base
+from pages.Base import Base
 
 
 class About(Base):
     url = 'https://tensor.ru/about'
 
     def open(self):
-        self.dr_helper.open(self.url)
+        self.dr.open(self.url)
         self.init_page_elements()
 
     def init_page_elements(self):
@@ -14,7 +14,7 @@ class About(Base):
         self.work_section_images = self.work_section.find_elements(By.TAG_NAME, 'img')
 
     def find_work_section(self):
-        find_els = self.dr_helper.get_elements_by_css('.tensor_ru-section')
+        find_els = self.dr.get_elements_by('.tensor_ru-section')
         if not find_els:
             return None
         for el in find_els:

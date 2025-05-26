@@ -1,13 +1,14 @@
-import time
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
-from Constants import Browsers, ELEMENT_WAIT_TIMEOUT
+from constants import Browsers, ELEMENT_WAIT_TIMEOUT
+from selenium.webdriver.support import expected_conditions as EC
+
+error_el = 'Элемент не найден на странице!'
 
 
-class DriverHelper:
+class Driver:
     __browser = Browsers.Chrome
     __driver = None
 
@@ -34,14 +35,17 @@ class DriverHelper:
         self.__driver.get(url)
         self.__driver.maximize_window()
 
-    def get_element_by_css(self, locator, by=By.CSS_SELECTOR):
+    def get_element_by(self, locator, by=By.CSS_SELECTOR):
         try:
-            el = self.__driver.find_element(by, locator)
+            el_is_exist, el = self.el_is_displayed(locator, by)
+            if el_is_exist:
+                return el
+            else:
+                raise Exception({error_el})
         except Exception as e:
-            raise Exception(f'Элемент не найден на странице! {e}')
-        return el
+            raise Exception(f'{error_el} {e}')
 
-    def get_elements_by_css(self, locator, by=By.CSS_SELECTOR):
+    def get_elements_by(self, locator, by=By.CSS_SELECTOR):
         try:
             el = self.__driver.find_elements(by, locator)
         except Exception as e:
@@ -61,7 +65,10 @@ class DriverHelper:
         # тут нужно сделать относительно конкретного элемента так как сролл контейнеров может быть много,
         # но пока не стал делать в рамках тестового
         self.__driver.execute_script(
-            f"let scroll = document.querySelector('.controls-Scroll-ContainerBase');scroll.scrollTo({el.location.get('x')}, {el.location.get('y')})")
+            f"const scroll = document.querySelector('.controls-Scroll-ContainerBase');scroll.scrollTo({el.location.get('x')}, {el.location.get('y')})")
+
+    def scroll_to_el_by_css(self, selector):
+        self.__driver.execute_script(f"const scroll = document.querySelector('.controls-Scroll-ContainerBase');const el = document.querySelector('.tensor_ru-Index__card').getBoundingClientRect();scroll.scrollTo(el.x, el.y)")
 
     def get_current_url(self):
         return self.__driver.current_url
@@ -69,13 +76,15 @@ class DriverHelper:
     def close_window(self):
         self.__driver.close()
 
-    def el_is_displayed(self, el: WebElement):
+    def el_is_displayed(self, locator, by=By.CSS_SELECTOR):
         try:
             wait = WebDriverWait(self.__driver, timeout=ELEMENT_WAIT_TIMEOUT)
-            visible = wait.until(lambda d: el.is_displayed())
-        except:
-            visible = False
-        return visible
+            el = wait.until(EC.visibility_of_element_located((by, locator)))
+            visible = isinstance(el, WebElement)
+        except Exception as e:
+            raise Exception(f"{error_el}, {e}")
+
+        return visible, el
 
     def el_is_not_displayed(self, el: WebElement):
         return not self.el_is_displayed(el)
