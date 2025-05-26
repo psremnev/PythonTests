@@ -11,4 +11,6 @@ class Home(Base):
 
     def init_page_elements(self):
         _, self.contacts_popup_btn, _, _ = self.dr.get_elements_by('.sbisru-Header__menu-link')
-        self.download_btn = self.dr.get_elements_by('//a[@href="/download"]', By.XPATH)
+
+        # нужен подскролл для инициализации
+        self.download_btn = self.dr.get_element_by('//a[@href="/download"]', By.XPATH)

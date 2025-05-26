@@ -37,7 +37,7 @@ class Driver:
 
     def get_element_by(self, locator, by=By.CSS_SELECTOR):
         try:
-            el_is_exist, el = self.el_is_displayed(locator, by)
+            el_is_exist, el = self.el_is_displayed_by_css(locator, by)
             if el_is_exist:
                 return el
             else:
@@ -68,7 +68,8 @@ class Driver:
             f"const scroll = document.querySelector('.controls-Scroll-ContainerBase');scroll.scrollTo({el.location.get('x')}, {el.location.get('y')})")
 
     def scroll_to_el_by_css(self, selector):
-        self.__driver.execute_script(f"const scroll = document.querySelector('.controls-Scroll-ContainerBase');const el = document.querySelector('.tensor_ru-Index__card').getBoundingClientRect();scroll.scrollTo(el.x, el.y)")
+        self.__driver.execute_script((f"const scroll = document.querySelector('.controls-Scroll-ContainerBase');"
+                  f"const el = document.querySelector('{selector}').getBoundingClientRect();scroll.scrollTo(el.x, el.y)"))
 
     def get_current_url(self):
         return self.__driver.current_url
@@ -76,7 +77,15 @@ class Driver:
     def close_window(self):
         self.__driver.close()
 
-    def el_is_displayed(self, locator, by=By.CSS_SELECTOR):
+    def el_is_displayed(self, el: WebElement):
+        try:
+            wait = WebDriverWait(self.__driver, timeout=ELEMENT_WAIT_TIMEOUT)
+            visible = wait.until(lambda d: el.is_displayed())
+        except:
+            visible = False
+        return visible
+
+    def el_is_displayed_by_css(self, locator, by=By.CSS_SELECTOR):
         try:
             wait = WebDriverWait(self.__driver, timeout=ELEMENT_WAIT_TIMEOUT)
             el = wait.until(EC.visibility_of_element_located((by, locator)))

@@ -12,7 +12,7 @@ class RegionPanel(Base):
         self.panel = wait.until(
             lambda d: d.find_element(By.CSS_SELECTOR, '.sbis_ru-Region-Panel'))
         # Инициализируем элементы панели
-        self.region_list = self.dr.get_element_by_css('.sbis_ru-Region-Panel__list-l')
+        self.region_list = self.dr.get_element_by('.sbis_ru-Region-Panel__list-l')
         self.region_items = self.dr.get_elements_by('.sbis_ru-Region-Panel__item')
 
     def select_region(self, region):

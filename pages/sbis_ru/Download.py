@@ -13,7 +13,7 @@ class Download(Base):
         self.init_page_elements()
 
     def init_page_elements(self):
-        self.plugin_tab = self.find_tab('СБИС Плагин')
+        self.plugin_tab = self.find_tab('Saby Plugin')
 
     def find_tab(self, tab_name):
         tabs = self.dr.get_elements_by('.controls-TabButton')
@@ -33,7 +33,7 @@ class Download(Base):
         return self.find_tab(tab_name.value)
 
     def find_first_link_for_download(self):
-        return self.dr.get_elements_by('Скача', By.PARTIAL_LINK_TEXT)[0]
+        return self.dr.get_elements_by('Скачать', By.PARTIAL_LINK_TEXT)[0]
 
     @staticmethod
     def download_file_by_link(url):

@@ -15,6 +15,7 @@ class Home(Base):
     def power_in_people_card_title_is_visible(self):
         return self.power_in_people_card_title.is_displayed() and self.power_in_people_card_title.text == 'Сила в людях'
     def find_power_in_people_card(self):
+        # для инициализации элемента нужно проскролить
         self.dr.scroll_to_el_by_css('.tensor_ru-Index__card')
         find_els = self.dr.get_elements_by('.tensor_ru-Index__card')
         if not find_els:

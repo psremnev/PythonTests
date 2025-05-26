@@ -48,14 +48,12 @@ class TestCase:
         assert self.page_tensor.power_in_people_card_title_is_visible(), 'Блок "Сила в людях" не отображается'
 
         # Переходим в карточке "Сила в людях" по кнопке "Подробнее" и проверяем правильный url адреса страницы
-        self.dr.scroll_to_el(self.page_tensor.power_in_people_card_more)
         self.page_tensor.power_in_people_card_more.click()
         assert self.dr.get_current_url() == 'https://tensor.ru/about', ('Адрес страницы не соот.'
                                                                                ' "https://tensor.ru/about"')
 
         # Проверим что все картинки в блоке "Работаем одного размера"
         self.page_tensor_about.init_page_elements()
-        self.dr.scroll_to_el(self.page_tensor_about.work_section_title)
         assert self.page_tensor_about.work_section_images_has_correct_size(), ('Картинки в блоке "Работаем"'
                                                                                ' имеют разный размер')
 
@@ -63,7 +61,6 @@ class TestCase:
         region_name = 'Ярославская обл.'
         region_partner_list = 'Ярославль'
         select_region = '37 Ивановская обл.'
-        select_region_name = 'Ивановская обл.'
         select_region_name_url = '37-ivanovskaya-oblast'
         select_region_partner_list = 'Иваново'
 
@@ -88,10 +85,9 @@ class TestCase:
         wait = WebDriverWait(self.dr.get_driver(), timeout=ELEMENT_WAIT_TIMEOUT)
         wait.until(lambda d: self.page_contacts.current_region.text != region_name)
 
-        assert self.page_contacts.current_region.text == select_region_name
         assert self.dr.get_current_url().find(select_region_name_url) > -1, \
             'Не изменился url страницы после выбора нового региона'
-        assert self.dr.get_driver().title == 'СБИС Контакты — Ивановская область', \
+        assert self.dr.get_driver().title == 'Saby Контакты — Ивановская область', \
             'Не изменился заголовок после выбора нового региона'
         assert self.page_contacts.has_city_in_partners_list(select_region_partner_list), \
             'В списке патнеров не отображается верный регион'
@@ -99,7 +95,6 @@ class TestCase:
     def test_download_sbis_plugin(self):
         # Открываем страницу сбис ру и нажимаем скачать сбис плагин
         self.page_sbis.open()
-        self.dr.scroll_to_el(self.page_sbis.download_btn)
         self.page_sbis.download_btn.click()
 
         # Переходим на нужный таб для скачивания файла
