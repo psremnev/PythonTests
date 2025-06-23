@@ -37,9 +37,9 @@ class Driver:
 
     def get_element_by(self, locator, by=By.CSS_SELECTOR):
         try:
-            el_is_exist, el = self.el_is_displayed_by_css(locator, by)
-            if el_is_exist:
-                return el
+            el_is_displayed = self.el_is_displayed(locator, by)
+            if el_is_displayed:
+                return self.__driver.find_element(by, locator)
             else:
                 raise Exception({error_el})
         except Exception as e:
@@ -77,23 +77,13 @@ class Driver:
     def close_window(self):
         self.__driver.close()
 
-    def el_is_displayed(self, el: WebElement):
+    def el_is_displayed(self, locator, by=By.CSS_SELECTOR):
         try:
             wait = WebDriverWait(self.__driver, timeout=ELEMENT_WAIT_TIMEOUT)
-            visible = wait.until(lambda d: el.is_displayed())
+            visible = wait.until(lambda d: self.__driver.find_element(by, locator).is_displayed())
         except:
             visible = False
         return visible
-
-    def el_is_displayed_by_css(self, locator, by=By.CSS_SELECTOR):
-        try:
-            wait = WebDriverWait(self.__driver, timeout=ELEMENT_WAIT_TIMEOUT)
-            el = wait.until(EC.visibility_of_element_located((by, locator)))
-            visible = isinstance(el, WebElement)
-        except Exception as e:
-            raise Exception(f"{error_el}, {e}")
-
-        return visible, el
 
     def el_is_not_displayed(self, el: WebElement):
         return not self.el_is_displayed(el)

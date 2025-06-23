@@ -13,7 +13,7 @@ class Download(Base):
         self.init_page_elements()
 
     def init_page_elements(self):
-        self.plugin_tab = self.find_tab('Saby Plugin')
+        self.plugin_tab = self.find_tab('Saby Desktop')
 
     def find_tab(self, tab_name):
         tabs = self.dr.get_elements_by('.controls-TabButton')
