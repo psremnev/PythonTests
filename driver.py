@@ -1,12 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
-from constants import Browsers, ELEMENT_WAIT_TIMEOUT
+from constants import Browsers, WAIT_TIMEOUT
 from selenium.webdriver.support import expected_conditions as EC
 
-error_el = 'Элемент не найден на странице!'
-
+error_find = 'Элемент не найден на странице!'
+error_not_displayed = 'Элемент не отображается на странице'
 
 class Driver:
     __browser = Browsers.Chrome
@@ -41,9 +40,9 @@ class Driver:
             if el_is_displayed:
                 return self.__driver.find_element(by, locator)
             else:
-                raise Exception({error_el})
+                raise Exception({error_not_displayed})
         except Exception as e:
-            raise Exception(f'{error_el} {e}')
+            raise Exception(f'{error_find} {e}')
 
     def get_elements_by(self, locator, by=By.CSS_SELECTOR):
         try:
@@ -79,11 +78,11 @@ class Driver:
 
     def el_is_displayed(self, locator, by=By.CSS_SELECTOR):
         try:
-            wait = WebDriverWait(self.__driver, timeout=ELEMENT_WAIT_TIMEOUT)
-            visible = wait.until(lambda d: self.__driver.find_element(by, locator).is_displayed())
+            wait = WebDriverWait(self.__driver, timeout=WAIT_TIMEOUT)
+            visible = wait.until(lambda _: EC.element_to_be_clickable((by, locator)))
         except:
             visible = False
         return visible
 
-    def el_is_not_displayed(self, el: WebElement):
-        return not self.el_is_displayed(el)
+    def el_is_not_displayed(self, locator, by=By.CSS_SELECTOR):
+        return not self.el_is_displayed(locator, by)

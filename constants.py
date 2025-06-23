@@ -10,6 +10,6 @@ class Platform(Enum):
     Linux = 'Linux'
     MACOS = 'MacOS'
 
-ELEMENT_WAIT_TIMEOUT = 5
+WAIT_TIMEOUT = 5
 
 STATUS_OK = 200

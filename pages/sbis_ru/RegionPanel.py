@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from constants import ELEMENT_WAIT_TIMEOUT
+from constants import WAIT_TIMEOUT
 from pages.Base import Base
 
 
@@ -8,7 +8,7 @@ class RegionPanel(Base):
 
     def init_page_elements(self):
         # Ожидаем появления самой панели
-        wait = WebDriverWait(self.dr.get_driver(), timeout=ELEMENT_WAIT_TIMEOUT)
+        wait = WebDriverWait(self.dr.get_driver(), timeout=WAIT_TIMEOUT)
         self.panel = wait.until(
             lambda d: d.find_element(By.CSS_SELECTOR, '.sbis_ru-Region-Panel'))
         # Инициализируем элементы панели
