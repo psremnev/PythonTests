@@ -67,8 +67,7 @@ class Driver:
             f"const scroll = document.querySelector('.controls-Scroll-ContainerBase');scroll.scrollTo({el.location.get('x')}, {el.location.get('y')})")
 
     def scroll_to_el_by_css(self, selector):
-        self.__driver.execute_script((f"const scroll = document.querySelector('.controls-Scroll-ContainerBase');"
-                  f"const el = document.querySelector('{selector}').getBoundingClientRect();scroll.scrollTo(el.x, el.y)"))
+        self.__driver.execute_script(f"const scroll = document.querySelector('.controls-Scroll-ContainerBase');const el = document.querySelector('{selector}').getBoundingClientRect();scroll.scrollTo(el.x, el.y)")
 
     def get_current_url(self):
         return self.__driver.current_url

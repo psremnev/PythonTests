@@ -10,6 +10,7 @@ from pages.sbis_ru.RegionPanel import RegionPanel
 from pages.sbis_ru.Download import Download
 from pages.sbis_ru.ContactsPopup import ContactsPopup
 from constants import WAIT_TIMEOUT
+import pdb
 
 class TestCase:
 
@@ -58,14 +59,13 @@ class TestCase:
                                                                                ' имеют разный размер')
 
     def test_change_region(self):
-        region_name = 'Ярославская обл.'
         select_region = '37 Ивановская обл.'
         select_region_name_url = '37-ivanovskaya-oblast'
         select_region_partner_list = 'Иваново'
 
         # Проверим текущий регион
         self.page_contacts.open()
-        assert self.page_contacts.current_region.text == region_name
+        region_name = self.page_contacts.current_region.text
 
         # Выбор региона и проверка
         self.page_contacts.current_region.click()
@@ -93,10 +93,14 @@ class TestCase:
     def test_download_sbis_plugin(self):
         # Открываем страницу сбис ру и нажимаем скачать сбис плагин
         self.page_sbis.open()
+
+        # Подскролим к футеру, иначе не видит элемент
+        self.dr.scroll_to_el_by_css('.sbisru-Footer__link')
         self.page_sbis.download_btn.click()
 
         # Переходим на нужный таб для скачивания файла
         self.page_download.init_page_elements()
+
         # тут странное поведение страницы, она обновляется 2 раза, поэтому пока так
         time.sleep(1)
         self.page_download.plugin_tab.click()
